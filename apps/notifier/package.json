@@ -1,0 +1,24 @@
+{
+  "name": "@spact/notifier",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Watches a Spact vault and sends the owner a Telegram message when a payment needs approval",
+  "bin": {
+    "spact-notifier": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:sandbox": "pnpm --filter @spact/shared build && tsc -p tsconfig.build.json && vitest run --config vitest.sandbox.config.ts"
+  },
+  "dependencies": {
+    "@spact/shared": "workspace:*",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "near-api-js": "7.2.0",
+    "vitest": "5.0.3"
+  }
+}

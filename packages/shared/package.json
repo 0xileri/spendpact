@@ -1,12 +1,12 @@
 {
-  "name": "@spendpact/shared",
+  "name": "@spact/shared",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Types, reason codes, amount helpers and the request digest shared by SpendPact clients",
+  "description": "Types, reason codes, amount helpers and the request digest shared by Spact clients",
   "exports": {
     ".": {
-      "spendpact-source": "./src/index.ts",
+      "spact-source": "./src/index.ts",
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     }

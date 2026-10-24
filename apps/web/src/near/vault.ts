@@ -11,7 +11,7 @@ import {
   type FtMetadata,
   type PaymentRequest,
   type Policy,
-} from "@spendpact/shared";
+} from "@spact/shared";
 
 import type { AppConfig } from "../config.js";
 

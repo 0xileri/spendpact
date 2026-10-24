@@ -6,7 +6,7 @@
 # wasm-opt is not run; see docs/DECISIONS.md (ADR-003).
 set -euo pipefail
 cd "$(dirname "$0")/../contracts"
-cargo build --target wasm32-unknown-unknown --release -p spendpact-vault -p mock-ft \
+cargo build --target wasm32-unknown-unknown --release -p spact-vault -p mock-ft \
   --config "build.rustflags=['-C','link-arg=-s','--cfg','near']"
-sha256sum target/wasm32-unknown-unknown/release/spendpact_vault.wasm \
+sha256sum target/wasm32-unknown-unknown/release/spact_vault.wasm \
   target/wasm32-unknown-unknown/release/mock_ft.wasm

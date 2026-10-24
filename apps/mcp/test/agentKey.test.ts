@@ -7,7 +7,7 @@ import { describe, expect, it } from "vitest";
 
 import { AGENT_METHODS, keyProblem, loadAgentKey } from "../src/agentKey.js";
 
-const dir = mkdtempSync(join(tmpdir(), "spendpact-mcp-key-"));
+const dir = mkdtempSync(join(tmpdir(), "spact-mcp-key-"));
 
 function keyFile(name: string, contents: unknown, mode = 0o600): string {
   const path = join(dir, name);

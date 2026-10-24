@@ -1,4 +1,4 @@
-//! Test-only NEP-141 token used by the SpendPact sandbox tests.
+//! Test-only NEP-141 token used by the Spact sandbox tests.
 //!
 //! A thin wrapper around `near-contract-standards`' `FungibleToken`. It exists so tests exercise a
 //! real NEP-141 contract (storage registration, 1 yocto deposits, transfer failures) instead of a
@@ -32,7 +32,7 @@ impl MockToken {
     pub fn new(owner_id: AccountId, total_supply: U128, symbol: String, decimals: u8) -> Self {
         let metadata = FungibleTokenMetadata {
             spec: FT_METADATA_SPEC.to_string(),
-            name: format!("SpendPact test {symbol}"),
+            name: format!("Spact test {symbol}"),
             symbol,
             icon: None,
             reference: None,

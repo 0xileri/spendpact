@@ -1,6 +1,6 @@
 [package]
-name = "spendpact-vault"
-description = "SpendPact policy vault: on-chain spending limits and exact-payment owner approval for AI agents"
+name = "spact-vault"
+description = "Spact policy vault: on-chain spending limits and exact-payment owner approval for AI agents"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true

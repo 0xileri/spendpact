@@ -1,6 +1,6 @@
 [package]
 name = "integration-tests"
-description = "NEAR sandbox tests for the SpendPact vault and mock token"
+description = "NEAR sandbox tests for the Spact vault and mock token"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true

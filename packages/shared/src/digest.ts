@@ -5,14 +5,14 @@ import { parseU128 } from "./amount.js";
 import type { PaymentRequest, Route } from "./types.js";
 
 /**
- * TypeScript port of contracts/spendpact-vault/src/digest.rs.
+ * TypeScript port of contracts/spact-vault/src/digest.rs.
  *
  * The owner's client recomputes the request hash from the fields it displays and passes that
  * hash to `approve_request`. If a backend or indexer showed different terms than the vault
  * stored, the hashes differ and the vault rejects the approval.
  */
 
-export const DIGEST_DOMAIN = "spendpact.request.v1";
+export const DIGEST_DOMAIN = "spact.request.v1";
 
 const U64_MAX = (1n << 64n) - 1n;
 const ROUTE_TAGS: Record<Route, number> = { NEAR_DIRECT: 0 };

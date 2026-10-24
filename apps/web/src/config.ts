@@ -1,4 +1,4 @@
-import { accountId } from "@spendpact/shared";
+import { accountId } from "@spact/shared";
 
 export type NetworkId = "sandbox" | "testnet" | "mainnet";
 

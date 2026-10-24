@@ -4,7 +4,7 @@ use near_sdk::{near, AccountId};
 use crate::types::{ReasonCode, Status};
 
 /// NEP-297 events. Indexers read these; contract state stays the source of truth.
-#[near(event_json(standard = "spendpact"))]
+#[near(event_json(standard = "spact"))]
 pub enum VaultEvent {
     #[event_version("1.0.0")]
     PolicyUpdated { policy_version: u64 },

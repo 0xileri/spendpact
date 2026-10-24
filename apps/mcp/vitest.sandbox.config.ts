@@ -3,7 +3,7 @@ import { defineConfig } from "vitest/config";
 
 // Spawns the built server (dist/) against a local sandbox chain; see test/sandbox/global-setup.ts.
 export default defineConfig({
-  ssr: { resolve: { conditions: ["spendpact-source", ...defaultServerConditions] } },
+  ssr: { resolve: { conditions: ["spact-source", ...defaultServerConditions] } },
   test: {
     include: ["test/sandbox/*.test.ts"],
     globalSetup: ["test/sandbox/global-setup.ts"],

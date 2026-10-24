@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { digestInputFromRequest, requestHash, type PaymentRequest } from "@spendpact/shared";
+import { digestInputFromRequest, requestHash, type PaymentRequest } from "@spact/shared";
 
 import { chain, fixture, UNIT } from "./chain.ts";
 

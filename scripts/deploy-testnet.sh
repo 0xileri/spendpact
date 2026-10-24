@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Deploys SpendPact to NEAR testnet with near-cli-rs:
+# Deploys Spact to NEAR testnet with near-cli-rs:
 #   tusd.<parent>   test NEP-141 token (mock-ft, 6 decimals; no real value)
-#   vault.<parent>  SpendPact vault, owned by <owner>, deployed and initialized in one transaction
+#   vault.<parent>  Spact vault, owned by <owner>, deployed and initialized in one transaction
 #   agent.<parent>  the agent account. It gets a function-call key limited to request_direct_payment and
 #                   execute_request on the vault, saved to its own file for the agent runtime. The account's
 #                   full-access key stays in your keychain as the operator key; never give it to the agent.
@@ -9,7 +9,7 @@
 # then funds the vault and creates two demo requests: one paid automatically, one awaiting approval.
 #
 # Usage: scripts/deploy-testnet.sh <parent-account> <owner-account>
-#   parent-account  funded account in your legacy keychain (~/.near-credentials), e.g. spendpact-demo.testnet
+#   parent-account  funded account in your legacy keychain (~/.near-credentials), e.g. spact-demo.testnet
 #                   create one: near account create-account sponsor-by-faucet-service <name>.testnet \
 #                                 autogenerate-new-keypair save-to-legacy-keychain network-config testnet create
 #   owner-account   the wallet account that approves payments, e.g. alice.testnet (create it in a wallet)
@@ -28,7 +28,7 @@
 #   AGENT_ALLOWANCE  gas allowance of the agent's restricted key (default: 0.25 NEAR)
 #   NEAR_CREDENTIALS_DIR / NEAR_NETWORK_NAME  where near-cli's legacy keychain lives
 #                    (defaults: ~/.near-credentials and testnet)
-#   AGENT_KEY_FILE   where to write the agent's restricted key (default: <credentials>/spendpact/<agent>.json)
+#   AGENT_KEY_FILE   where to write the agent's restricted key (default: <credentials>/spact/<agent>.json)
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
@@ -44,7 +44,7 @@ API="api.$PARENT"
 UNIT=1000000 # 1 TUSD in base units (6 decimals)
 AGENT_METHODS='request_direct_payment, execute_request'
 KEYCHAIN="${NEAR_CREDENTIALS_DIR:-$HOME/.near-credentials}/${NEAR_NETWORK_NAME:-testnet}"
-AGENT_KEY_FILE="${AGENT_KEY_FILE:-${NEAR_CREDENTIALS_DIR:-$HOME/.near-credentials}/spendpact/$AGENT.json}"
+AGENT_KEY_FILE="${AGENT_KEY_FILE:-${NEAR_CREDENTIALS_DIR:-$HOME/.near-credentials}/spact/$AGENT.json}"
 
 die() { echo "error: $*" >&2; exit 1; }
 step() { printf '\n==> %s\n' "$*" >&2; }
@@ -79,7 +79,7 @@ near contract deploy "$TOKEN" use-file "$WASM_DIR/mock_ft.wasm" with-init-call n
 
 step "Deploying and initializing the vault at $VAULT (one transaction, signed by the vault account)"
 POLICY="{\"tokens\":[{\"token\":\"$TOKEN\",\"auto_limit\":\"$((10 * UNIT))\",\"hard_tx_limit\":\"$((30 * UNIT))\",\"daily_limit\":\"$((50 * UNIT))\"}],\"recipients\":[\"$API\"],\"max_open_approvals\":5,\"max_requests_per_day\":50,\"approval_ttl_sec\":86400}"
-near contract deploy "$VAULT" use-file "$WASM_DIR/spendpact_vault.wasm" with-init-call new \
+near contract deploy "$VAULT" use-file "$WASM_DIR/spact_vault.wasm" with-init-call new \
   json-args "{\"owner\":\"$OWNER\",\"agents\":[\"$AGENT\"],\"network\":\"$LABEL\",\"policy\":$POLICY}" \
   prepaid-gas '100.0 Tgas' attached-deposit '0 NEAR' network-config "$NET" sign-with-legacy-keychain send
 
@@ -127,7 +127,7 @@ agent      $AGENT
 payee      $API
 owner      $OWNER
 
-Put this in apps/web/.env.local, then run: pnpm --filter @spendpact/web dev
+Put this in apps/web/.env.local, then run: pnpm --filter @spact/web dev
 VITE_NEAR_NETWORK=$LABEL
 VITE_NEAR_RPC_URL=$RPC_URL
 VITE_VAULT_ID=$VAULT

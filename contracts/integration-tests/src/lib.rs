@@ -86,7 +86,7 @@ pub async fn setup() -> anyhow::Result<Deployment> {
     let vault_account = account(&root, "vault").await?;
     vault_account
         .batch(vault_account.id())
-        .deploy(&wasm("spendpact_vault"))
+        .deploy(&wasm("spact_vault"))
         .call(Function::new("new").args_json(json!({
             "owner": owner.id(),
             "agents": [agent.id()],

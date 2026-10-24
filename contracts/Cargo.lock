@@ -3474,7 +3474,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "spendpact-vault"
+name = "spact-vault"
 version = "0.1.0"
 dependencies = [
  "near-sdk",

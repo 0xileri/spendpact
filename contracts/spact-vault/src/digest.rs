@@ -4,7 +4,7 @@
 //!
 //! | field            | type   |
 //! |------------------|--------|
-//! | domain           | string (`"spendpact.request.v1"`) |
+//! | domain           | string (`"spact.request.v1"`) |
 //! | network          | string |
 //! | vault_id         | string |
 //! | request_id       | string |
@@ -27,7 +27,7 @@ use near_sdk::env;
 
 use crate::types::PaymentRequest;
 
-pub const DIGEST_DOMAIN: &str = "spendpact.request.v1";
+pub const DIGEST_DOMAIN: &str = "spact.request.v1";
 
 pub fn encode_request(network: &str, vault_id: &str, req: &PaymentRequest) -> Vec<u8> {
     let mut out = Vec::with_capacity(256);

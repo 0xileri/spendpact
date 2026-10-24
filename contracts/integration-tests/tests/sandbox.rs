@@ -257,7 +257,7 @@ async fn deployed_vault_cannot_be_initialized_by_someone_else() -> anyhow::Resul
     let env = setup().await?;
     let root = env.worker.root_account()?;
     let fresh = account(&root, "fresh-vault").await?;
-    fresh.deploy(&wasm("spendpact_vault")).await?.into_result()?;
+    fresh.deploy(&wasm("spact_vault")).await?.into_result()?;
     let r = env
         .mallory
         .call(fresh.id(), "new")

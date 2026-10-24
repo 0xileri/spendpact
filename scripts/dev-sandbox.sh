@@ -4,6 +4,7 @@
 #   2. the dev signer, which signs owner decisions with the sandbox owner key on localhost
 #   3. the approval page on http://localhost:5173
 #   4. the agent's MCP server, built and ready to add to Claude Code or Codex (commands printed below)
+#   5. optionally, the Telegram notifier: run the printed command with your own bot token
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 FIXTURE="$ROOT/contracts/target/sandbox-fixture.json"
@@ -36,21 +37,27 @@ import { KeyPair } from "near-api-js";
 const sk = JSON.parse(readFileSync(process.argv[1], "utf8")).agent_secret_key;
 writeFileSync(process.argv[2], JSON.stringify({ public_key: KeyPair.fromString(sk).getPublicKey().toString(), private_key: sk }), { mode: 0o600 });
 ' "$FIXTURE" "$AGENT_KEY")
-(cd "$ROOT" && pnpm -s --filter @spendpact/shared build && pnpm -s --filter @spendpact/mcp build) >&2
+(cd "$ROOT" && pnpm -s --filter @spact/shared build && pnpm -s --filter @spact/mcp build && pnpm -s --filter @spact/notifier build) >&2
 
 MCP_ENV=(
-  "SPENDPACT_NETWORK=sandbox"
-  "SPENDPACT_RPC_URL=$(field rpc_url)"
-  "SPENDPACT_VAULT_ID=$(field vault_id)"
-  "SPENDPACT_AGENT_ID=$(field agent_id)"
-  "SPENDPACT_AGENT_KEY_FILE=$AGENT_KEY"
-  "SPENDPACT_APPROVAL_URL=http://localhost:$WEB_PORT/"
+  "SPACT_NETWORK=sandbox"
+  "SPACT_RPC_URL=$(field rpc_url)"
+  "SPACT_VAULT_ID=$(field vault_id)"
+  "SPACT_AGENT_ID=$(field agent_id)"
+  "SPACT_AGENT_KEY_FILE=$AGENT_KEY"
+  "SPACT_APPROVAL_URL=http://localhost:$WEB_PORT/"
 )
 echo
 echo "Agent MCP server (the sandbox RPC port changes every run, so re-add it each time):"
-printf '  claude mcp add spendpact'; printf ' -e %s' "${MCP_ENV[@]}"; printf ' -- node %s\n' "$ROOT/apps/mcp/dist/index.js"
-printf '  codex mcp add spendpact'; printf ' --env %s' "${MCP_ENV[@]}"; printf ' -- node %s\n' "$ROOT/apps/mcp/dist/index.js"
+printf '  claude mcp add spact'; printf ' -e %s' "${MCP_ENV[@]}"; printf ' -- node %s\n' "$ROOT/apps/mcp/dist/index.js"
+printf '  codex mcp add spact'; printf ' --env %s' "${MCP_ENV[@]}"; printf ' -- node %s\n' "$ROOT/apps/mcp/dist/index.js"
 echo "Then ask the agent to pay $(field api_id) in $(field token_id) (6 decimals): 5 TUSD is paid at once, 20 TUSD waits for you."
+
+echo
+echo "Telegram alerts (optional; needs a bot token from @BotFather and access to api.telegram.org):"
+printf '  TELEGRAM_BOT_TOKEN=<your bot token> SPACT_NOTIFIER_STATE=%s' "$ROOT/contracts/target/sandbox-notifier-state.json"
+printf ' %s' "${MCP_ENV[@]:0:3}" "SPACT_APPROVAL_URL=http://localhost:$WEB_PORT/"; printf ' node %s\n' "$ROOT/apps/notifier/dist/index.js"
+rm -f "$ROOT/contracts/target/sandbox-notifier-state.json"
 
 echo
 echo "Open http://localhost:$WEB_PORT/?request=$(field demo_request_id)"

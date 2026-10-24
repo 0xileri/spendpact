@@ -1,4 +1,4 @@
-import { requestHash, digestInputFromRequest, type PaymentRequest } from "@spendpact/shared";
+import { requestHash, digestInputFromRequest, type PaymentRequest } from "@spact/shared";
 import { describe, expect, it } from "vitest";
 
 import { assess, buildApproveActions, buildRejectActions, reasonFromError, type ProblemCode } from "../src/approval.js";

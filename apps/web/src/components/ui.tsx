@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import type { Status } from "@spendpact/shared";
+import type { Status } from "@spact/shared";
 
 export function Card({ children, className = "" }: { children: ReactNode; className?: string }) {
   return <section className={`rounded-xl border border-slate-200 bg-white p-5 shadow-sm ${className}`}>{children}</section>;

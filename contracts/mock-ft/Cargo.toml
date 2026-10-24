@@ -1,6 +1,6 @@
 [package]
 name = "mock-ft"
-description = "Test-only NEP-141 token for SpendPact sandbox tests. Not for deployment with real value."
+description = "Test-only NEP-141 token for Spact sandbox tests. Not for deployment with real value."
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true

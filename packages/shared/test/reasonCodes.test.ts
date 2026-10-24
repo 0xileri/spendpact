@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 
 import { REASON_CODES } from "../src/reasonCodes.js";
 
-const RUST_TYPES = fileURLToPath(new URL("../../../contracts/spendpact-vault/src/types.rs", import.meta.url));
+const RUST_TYPES = fileURLToPath(new URL("../../../contracts/spact-vault/src/types.rs", import.meta.url));
 
 describe("reason codes", () => {
   it("match the contract's ReasonCode::as_str strings exactly", () => {

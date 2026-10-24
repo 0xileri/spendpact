@@ -1,21 +1,21 @@
 {
-  "name": "@spendpact/mcp",
+  "name": "@spact/mcp",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Local stdio MCP server that lets an AI agent request SpendPact payments with its restricted key",
+  "description": "Local stdio MCP server that lets an AI agent request Spact payments with its restricted key",
   "bin": {
-    "spendpact-mcp": "./dist/index.js"
+    "spact-mcp": "./dist/index.js"
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
-    "test:sandbox": "pnpm --filter @spendpact/shared build && tsc -p tsconfig.build.json && vitest run --config vitest.sandbox.config.ts"
+    "test:sandbox": "pnpm --filter @spact/shared build && tsc -p tsconfig.build.json && vitest run --config vitest.sandbox.config.ts"
   },
   "dependencies": {
     "@modelcontextprotocol/server": "2.3.1",
-    "@spendpact/shared": "workspace:*",
+    "@spact/shared": "workspace:*",
     "near-api-js": "7.2.0",
     "zod": "4.6.5"
   },

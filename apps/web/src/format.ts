@@ -1,4 +1,4 @@
-import { formatUnits, parseU128, type FtMetadata } from "@spendpact/shared";
+import { formatUnits, parseU128, type FtMetadata } from "@spact/shared";
 
 /** "25 TUSD", or the raw base units when token metadata is unavailable. */
 export function formatAmount(units: string, token: FtMetadata | null): string {

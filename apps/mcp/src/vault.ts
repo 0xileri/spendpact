@@ -9,7 +9,7 @@ import {
   type PaymentOutcome,
   type PaymentRequest,
   type ReasonCode,
-} from "@spendpact/shared";
+} from "@spact/shared";
 import { Account, actions, JsonRpcProvider } from "near-api-js";
 
 import { AgentKeyError, keyProblem, type AgentKey } from "./agentKey.js";

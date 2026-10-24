@@ -16,8 +16,8 @@ export interface Fixture {
 }
 
 export function fixture(): Fixture {
-  const path = process.env.SPENDPACT_FIXTURE;
-  if (!path) throw new Error("SPENDPACT_FIXTURE not set; run through playwright.config.ts");
+  const path = process.env.SPACT_FIXTURE;
+  if (!path) throw new Error("SPACT_FIXTURE not set; run through playwright.config.ts");
   return JSON.parse(readFileSync(path, "utf8")) as Fixture;
 }
 

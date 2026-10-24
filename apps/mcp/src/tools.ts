@@ -1,11 +1,11 @@
 import { McpServer } from "@modelcontextprotocol/server";
-import { accountId, explainReason, type PaymentOutcome, type Status } from "@spendpact/shared";
+import { accountId, explainReason, type PaymentOutcome, type Status } from "@spact/shared";
 import { z } from "zod";
 
 import { explorerTxLink, reviewLink, type McpConfig } from "./config.js";
 import type { SubmitResult, VaultClient } from "./vault.js";
 
-export const SERVER_NAME = "spendpact";
+export const SERVER_NAME = "spact";
 export const SERVER_VERSION = "0.1.0";
 
 const U128_MAX = (1n << 128n) - 1n;
@@ -127,7 +127,7 @@ export interface ServerDeps {
   config: Pick<McpConfig, "network" | "vaultId" | "agentId" | "approvalUrl" | "explorerTxUrl">;
 }
 
-export function createSpendPactServer({ vault, config }: ServerDeps): McpServer {
+export function createSpactServer({ vault, config }: ServerDeps): McpServer {
   const server = new McpServer({ name: SERVER_NAME, version: SERVER_VERSION }, { maxToolInputElements: 100 });
   // tx hashes of requests this process submitted, for explorer links in get_payment_status
   const txHashes = new Map<string, string>();
@@ -135,9 +135,9 @@ export function createSpendPactServer({ vault, config }: ServerDeps): McpServer 
   server.registerTool(
     "request_payment",
     {
-      title: "Request a SpendPact payment",
+      title: "Request a Spact payment",
       description:
-        `Ask the SpendPact vault ${config.vaultId} on NEAR ${config.network} to pay an allowlisted recipient. ` +
+        `Ask the Spact vault ${config.vaultId} on NEAR ${config.network} to pay an allowlisted recipient. ` +
         "The vault's on-chain policy decides: small payments are paid at once, larger ones wait for the owner to approve them in their wallet, and anything outside the policy is blocked. " +
         "This tool cannot change the policy, approve payments, or move funds any other way.",
       inputSchema: requestPaymentInput,
@@ -206,9 +206,9 @@ export function createSpendPactServer({ vault, config }: ServerDeps): McpServer 
   server.registerTool(
     "get_payment_status",
     {
-      title: "Get a SpendPact payment's status",
+      title: "Get a Spact payment's status",
       description:
-        `Read the current on-chain status of a payment request in the SpendPact vault ${config.vaultId}. ` +
+        `Read the current on-chain status of a payment request in the Spact vault ${config.vaultId}. ` +
         "Blocked requests are not stored, so they read as NOT_FOUND.",
       inputSchema: z.object({ request_id: requestId.describe("The request_id you used with request_payment") }),
       outputSchema: getPaymentStatusOutput,

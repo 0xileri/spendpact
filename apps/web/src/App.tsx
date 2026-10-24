@@ -26,7 +26,7 @@ export function App({ config }: { config: AppConfig }) {
       <header className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div className="min-w-0">
           <a href="./" className="text-lg font-bold tracking-tight">
-            SpendPact
+            Spact
           </a>
           <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-slate-500">
             <Badge tone={badge.tone}>{badge.label}</Badge>

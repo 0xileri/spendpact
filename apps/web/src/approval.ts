@@ -1,4 +1,4 @@
-import { digestInputFromRequest, isReasonCode, parseU128, requestHash, type ReasonCode } from "@spendpact/shared";
+import { digestInputFromRequest, isReasonCode, parseU128, requestHash, type ReasonCode } from "@spact/shared";
 
 import type { AppConfig } from "./config.js";
 import type { VaultSnapshot } from "./near/vault.js";

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import type { PaymentRequest } from "@spendpact/shared";
+import type { PaymentRequest } from "@spact/shared";
 
 import type { AppConfig } from "../config.js";
 import { errorMessage } from "../format.js";

@@ -1,4 +1,4 @@
-import { accountId } from "@spendpact/shared";
+import { accountId } from "@spact/shared";
 
 export type NetworkId = "sandbox" | "testnet" | "mainnet";
 
@@ -47,36 +47,36 @@ function parseAccount(value: string | undefined, name: string): string {
 }
 
 export function parseConfig(env: Record<string, string | undefined>): McpConfig {
-  const network = env.SPENDPACT_NETWORK;
+  const network = env.SPACT_NETWORK;
   if (network !== "sandbox" && network !== "testnet" && network !== "mainnet") {
-    throw new ConfigError("SPENDPACT_NETWORK must be sandbox, testnet or mainnet");
+    throw new ConfigError("SPACT_NETWORK must be sandbox, testnet or mainnet");
   }
   if (network === "mainnet" && env.ENABLE_MAINNET_TRANSFERS !== "true") {
     throw new ConfigError("mainnet moves real funds: set ENABLE_MAINNET_TRANSFERS=true to allow it");
   }
 
-  const rpc = parseUrl(env.SPENDPACT_RPC_URL, "SPENDPACT_RPC_URL");
+  const rpc = parseUrl(env.SPACT_RPC_URL, "SPACT_RPC_URL");
   if (network !== "sandbox" && rpc.protocol !== "https:") {
-    throw new ConfigError("SPENDPACT_RPC_URL must use https outside sandbox");
+    throw new ConfigError("SPACT_RPC_URL must use https outside sandbox");
   }
 
-  const vaultId = parseAccount(env.SPENDPACT_VAULT_ID, "SPENDPACT_VAULT_ID");
-  const agentId = parseAccount(env.SPENDPACT_AGENT_ID, "SPENDPACT_AGENT_ID");
-  if (agentId === vaultId) throw new ConfigError("SPENDPACT_AGENT_ID must not be the vault");
+  const vaultId = parseAccount(env.SPACT_VAULT_ID, "SPACT_VAULT_ID");
+  const agentId = parseAccount(env.SPACT_AGENT_ID, "SPACT_AGENT_ID");
+  if (agentId === vaultId) throw new ConfigError("SPACT_AGENT_ID must not be the vault");
 
-  const agentKeyFile = env.SPENDPACT_AGENT_KEY_FILE;
-  if (!agentKeyFile) throw new ConfigError("SPENDPACT_AGENT_KEY_FILE is required");
+  const agentKeyFile = env.SPACT_AGENT_KEY_FILE;
+  if (!agentKeyFile) throw new ConfigError("SPACT_AGENT_KEY_FILE is required");
 
   let approvalUrl: string | null = null;
-  if (env.SPENDPACT_APPROVAL_URL) {
-    const url = parseUrl(env.SPENDPACT_APPROVAL_URL, "SPENDPACT_APPROVAL_URL");
-    if (url.search || url.hash) throw new ConfigError("SPENDPACT_APPROVAL_URL must not have a query or fragment");
+  if (env.SPACT_APPROVAL_URL) {
+    const url = parseUrl(env.SPACT_APPROVAL_URL, "SPACT_APPROVAL_URL");
+    if (url.search || url.hash) throw new ConfigError("SPACT_APPROVAL_URL must not have a query or fragment");
     approvalUrl = url.toString();
   }
 
-  const explorerTxUrl = env.SPENDPACT_EXPLORER_TX_URL || DEFAULT_EXPLORERS[network];
+  const explorerTxUrl = env.SPACT_EXPLORER_TX_URL || DEFAULT_EXPLORERS[network];
   if (explorerTxUrl !== null && !explorerTxUrl.includes("{hash}")) {
-    throw new ConfigError("SPENDPACT_EXPLORER_TX_URL must contain {hash}");
+    throw new ConfigError("SPACT_EXPLORER_TX_URL must contain {hash}");
   }
 
   return { network, rpcUrl: rpc.toString(), vaultId, agentId, agentKeyFile, approvalUrl, explorerTxUrl };

@@ -12,7 +12,7 @@ import { resolve } from "node:path";
 
 import { Client } from "@modelcontextprotocol/client";
 import { getDefaultEnvironment, StdioClientTransport } from "@modelcontextprotocol/client/stdio";
-import { configViewSchema, paymentRequestSchema, viewFunction } from "@spendpact/shared";
+import { configViewSchema, paymentRequestSchema, viewFunction } from "@spact/shared";
 import { Account, actions, JsonRpcProvider, type KeyPairString } from "near-api-js";
 import { afterAll, beforeAll, describe, expect, inject, it } from "vitest";
 
@@ -23,12 +23,12 @@ const sb = inject("sandbox");
 function serverEnv(overrides: Record<string, string> = {}): Record<string, string> {
   return {
     ...getDefaultEnvironment(),
-    SPENDPACT_NETWORK: "sandbox",
-    SPENDPACT_RPC_URL: sb.rpcUrl,
-    SPENDPACT_VAULT_ID: sb.vaultId,
-    SPENDPACT_AGENT_ID: sb.agentId,
-    SPENDPACT_AGENT_KEY_FILE: sb.agentKeyFile,
-    SPENDPACT_APPROVAL_URL: "http://127.0.0.1:5173/",
+    SPACT_NETWORK: "sandbox",
+    SPACT_RPC_URL: sb.rpcUrl,
+    SPACT_VAULT_ID: sb.vaultId,
+    SPACT_AGENT_ID: sb.agentId,
+    SPACT_AGENT_KEY_FILE: sb.agentKeyFile,
+    SPACT_APPROVAL_URL: "http://127.0.0.1:5173/",
     ...overrides,
   };
 }
@@ -44,7 +44,7 @@ async function requestCount(): Promise<number> {
 let client: Client;
 
 beforeAll(async () => {
-  client = new Client({ name: "spendpact-sandbox-test", version: "0" });
+  client = new Client({ name: "spact-sandbox-test", version: "0" });
   await client.connect(new StdioClientTransport({ command: process.execPath, args: [SERVER], env: serverEnv(), stderr: "ignore" }));
 });
 
@@ -59,7 +59,7 @@ function pay(request_id: string, amount: bigint, recipient = sb.apiId, reason = 
   });
 }
 
-describe("SpendPact MCP server on a sandbox chain", () => {
+describe("Spact MCP server on a sandbox chain", () => {
   it("offers exactly two tools", async () => {
     const { tools } = await client.listTools();
     expect(tools.map((t) => t.name).sort()).toEqual(["get_payment_status", "request_payment"]);
@@ -159,19 +159,19 @@ describe("startup checks", () => {
   }
 
   it("refuses to run with a full-access key", () => {
-    const run = start({ SPENDPACT_AGENT_ID: sb.ownerId, SPENDPACT_AGENT_KEY_FILE: sb.ownerKeyFile });
+    const run = start({ SPACT_AGENT_ID: sb.ownerId, SPACT_AGENT_KEY_FILE: sb.ownerKeyFile });
     expect(run.status).toBe(1);
     expect(run.stderr).toMatch(/refusing to run with a full-access key/);
   });
 
   it("refuses a key scoped to another contract", () => {
-    const run = start({ SPENDPACT_VAULT_ID: sb.tokenId });
+    const run = start({ SPACT_VAULT_ID: sb.tokenId });
     expect(run.status).toBe(1);
     expect(run.stderr).toMatch(/not the vault/);
   });
 
   it("refuses a key the named account does not have", () => {
-    const run = start({ SPENDPACT_AGENT_ID: sb.malloryId });
+    const run = start({ SPACT_AGENT_ID: sb.malloryId });
     expect(run.status).toBe(1);
     expect(run.stderr).toMatch(/has no such key/);
   });

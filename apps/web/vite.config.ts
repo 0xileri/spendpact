@@ -6,9 +6,9 @@ import { defaultClientConditions, defaultServerConditions, defineConfig } from "
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   // Resolve workspace packages to their TypeScript sources, so no prebuild step is needed.
-  resolve: { conditions: ["spendpact-source", ...defaultClientConditions] },
+  resolve: { conditions: ["spact-source", ...defaultClientConditions] },
   // Vitest runs in the server environment, which has its own resolve conditions.
-  ssr: { resolve: { conditions: ["spendpact-source", ...defaultServerConditions] } },
+  ssr: { resolve: { conditions: ["spact-source", ...defaultServerConditions] } },
   test: {
     include: ["test/**/*.test.ts"],
   },

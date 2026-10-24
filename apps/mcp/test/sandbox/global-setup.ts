@@ -50,7 +50,7 @@ function writeKeyFile(path: string, secretKey: string) {
 }
 
 export default async function globalSetup(project: TestProject) {
-  const dir = mkdtempSync(join(tmpdir(), "spendpact-mcp-"));
+  const dir = mkdtempSync(join(tmpdir(), "spact-mcp-"));
   const fixturePath = join(dir, "fixture.json");
 
   // Builds the contracts on first run, so allow a while.

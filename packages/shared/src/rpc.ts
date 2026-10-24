@@ -1,6 +1,6 @@
 /**
  * Minimal NEAR JSON-RPC client for read-only calls. Responses are untrusted: callers validate the
- * decoded JSON with the schemas in @spendpact/shared.
+ * decoded JSON with the schemas in @spact/shared.
  */
 
 import { parseAccessKeyPermission, type AccessKeyPermission } from "./schemas.js";
@@ -31,7 +31,7 @@ async function call(rpcUrl: string, method: string, params: unknown): Promise<un
   const res = await fetch(rpcUrl, {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ jsonrpc: "2.0", id: "spendpact", method, params }),
+    body: JSON.stringify({ jsonrpc: "2.0", id: "spact", method, params }),
   });
   if (!res.ok) throw new RpcError(`RPC returned HTTP ${res.status}`);
   const body: unknown = await res.json();

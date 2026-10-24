@@ -15,7 +15,7 @@ const bytes = (value: unknown) => Array.from(new TextEncoder().encode(JSON.strin
 
 describe("viewFunction", () => {
   it("sends a call_function query and decodes the JSON result", async () => {
-    const fetchMock = mockFetch({ jsonrpc: "2.0", id: "spendpact", result: { result: bytes({ ok: 1 }), logs: [], block_height: 1 } });
+    const fetchMock = mockFetch({ jsonrpc: "2.0", id: "spact", result: { result: bytes({ ok: 1 }), logs: [], block_height: 1 } });
     await expect(viewFunction("http://rpc", "vault.test.near", "get_request", { request_id: "r1" })).resolves.toEqual({ ok: 1 });
     const [, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
     const sent = JSON.parse(init.body as string);

@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["spendpact-vault", "mock-ft", "integration-tests"]
+members = ["spact-vault", "mock-ft", "integration-tests"]
 
 [workspace.package]
 version = "0.1.0"

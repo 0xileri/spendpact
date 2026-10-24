@@ -1,6 +1,6 @@
 /**
  * Reason codes emitted by the vault contract. Must stay identical to `ReasonCode::as_str` in
- * contracts/spendpact-vault/src/types.rs; test/reasonCodes.test.ts checks this.
+ * contracts/spact-vault/src/types.rs; test/reasonCodes.test.ts checks this.
  */
 export const REASON_CODES = {
   AUTO_WITHIN_POLICY: "Within the auto-approval limit and today's budget.",

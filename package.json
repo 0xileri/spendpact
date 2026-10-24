@@ -1,5 +1,5 @@
 {
-  "name": "spendpact",
+  "name": "spact",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@10.28.0",
@@ -13,8 +13,9 @@
     "build": "pnpm -r --if-present build",
     "contracts:build": "scripts/build-contracts.sh",
     "contracts:test": "scripts/test-contracts.sh",
-    "e2e": "pnpm --filter @spendpact/web e2e",
-    "mcp:sandbox": "pnpm --filter @spendpact/mcp test:sandbox",
+    "e2e": "pnpm --filter @spact/web e2e",
+    "mcp:sandbox": "pnpm --filter @spact/mcp test:sandbox",
+    "notifier:sandbox": "pnpm --filter @spact/notifier test:sandbox",
     "dev:sandbox": "scripts/dev-sandbox.sh"
   },
   "devDependencies": {

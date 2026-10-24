@@ -1,8 +1,8 @@
 import { Client, InMemoryTransport } from "@modelcontextprotocol/client";
-import type { PaymentRequest } from "@spendpact/shared";
+import type { PaymentRequest } from "@spact/shared";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { createSpendPactServer } from "../src/tools.js";
+import { createSpactServer } from "../src/tools.js";
 import { decodeSuccessValue, panicMessage, reasonCodeOf, type SubmitResult, type VaultClient } from "../src/vault.js";
 
 const TX = "2Ycco1B9UE1X3wq1E7sNCbGDzfAwe2RK5nqvpKTnfzWH";
@@ -67,7 +67,7 @@ afterEach(async () => {
 
 async function connect(vault: VaultClient) {
   const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
-  await createSpendPactServer({ vault, config }).connect(serverTransport);
+  await createSpactServer({ vault, config }).connect(serverTransport);
   const client = new Client({ name: "test", version: "0" });
   await client.connect(clientTransport);
   clients.push(client);

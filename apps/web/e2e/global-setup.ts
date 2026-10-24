@@ -35,7 +35,7 @@ function stop(child: ChildProcess): Promise<void> {
 }
 
 export default async function globalSetup() {
-  const fixturePath = join(mkdtempSync(join(tmpdir(), "spendpact-e2e-")), "fixture.json");
+  const fixturePath = join(mkdtempSync(join(tmpdir(), "spact-e2e-")), "fixture.json");
 
   // Builds the contracts on first run, so allow a while.
   const sandbox = spawn(join(ROOT, "scripts/start-demo-sandbox.sh"), [fixturePath], { stdio: ["ignore", "pipe", "inherit"] });
@@ -51,7 +51,7 @@ export default async function globalSetup() {
 
   // Vite exposes VITE_* variables from the environment to the page.
   Object.assign(process.env, {
-    SPENDPACT_FIXTURE: fixturePath,
+    SPACT_FIXTURE: fixturePath,
     VITE_NEAR_NETWORK: "sandbox",
     VITE_NEAR_RPC_URL: fixture.rpc_url,
     VITE_VAULT_ID: fixture.vault_id,

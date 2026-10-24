@@ -1,0 +1,9 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "customConditions": ["spact-source"],
+    "types": ["node"],
+    "noEmit": true
+  },
+  "include": ["src", "test", "vitest.config.ts", "vitest.sandbox.config.ts"]
+}

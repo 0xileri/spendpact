@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 "$ROOT/scripts/build-contracts.sh"
 cd "$ROOT/contracts"
-cargo test -p spendpact-vault -p mock-ft
+cargo test -p spact-vault -p mock-ft
 
 # shellcheck source=sandbox-env.sh
 source "$ROOT/scripts/sandbox-env.sh"

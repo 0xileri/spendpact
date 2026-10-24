@@ -1,4 +1,4 @@
-//! Starts a local NEAR sandbox with a funded SpendPact vault, then waits until interrupted.
+//! Starts a local NEAR sandbox with a funded Spact vault, then waits until interrupted.
 //!
 //! Usage: `demo-sandbox <fixture.json>`
 //!

@@ -7,7 +7,7 @@ Status labels: **built** (code plus passing tests in this repo), **planned** (in
                          | set_policy / set_paused / approve_request(id, hash)
                          | reject_request / owner_withdraw        [built, contract side]
                          v
- AI AGENT --request_direct_payment / execute_request--> SPENDPACT VAULT (Rust, near-sdk)  [built]
+ AI AGENT --request_direct_payment / execute_request--> SPACT VAULT (Rust, near-sdk)  [built]
  (own NEAR account,                                     - policy + version
   restricted key)                                       - immutable requests + hash
                                                         - UTC-day ledger: executed + pending
@@ -25,10 +25,13 @@ Status labels: **built** (code plus passing tests in this repo), **planned** (in
  AGENT HOST (Claude Code, Codex): MCP server (apps/mcp) [built]
    request_payment / get_payment_status -> signs with the agent's function-call key
 
- planned: API/indexer, Telegram notifier, 1Click adapter (P1)
+ OWNER PHONE: Telegram notifier (apps/notifier) [built]
+   polls the vault -> plain-text alert with the exact terms + approval link -> follow-up when paid
+
+ planned: API/indexer, 1Click adapter (P1)
 ```
 
-## Vault contract (`contracts/spendpact-vault`) [built]
+## Vault contract (`contracts/spact-vault`) [built]
 
 **State:** owner, network label, agents (max 8), paused flag, policy (tokens, recipient allowlist, limits), `policy_version`, open-approval counter, requests (`IterableMap<String, PaymentRequest>`), ledgers keyed by `(token, utc_day)`, stored-request counts per day.
 
@@ -57,7 +60,7 @@ The spec's AUTO_AUTHORIZED, RESERVED and SOURCE_CONFIRMED states happen inside o
 
 **Request hash:** sha256 over a versioned, borsh-compatible encoding of domain, network, vault id, request id, agent, route, token, amount, recipient, reason, expiry and policy version (`src/digest.rs`, mirrored in `packages/shared/src/digest.ts`).
 
-**Events:** NEP-297 `EVENT_JSON` with standard `spendpact` for policy, pause, agent changes, blocked requests, status transitions and owner withdrawals. Indexers read events; contract state is the source of truth.
+**Events:** NEP-297 `EVENT_JSON` with standard `spact` for policy, pause, agent changes, blocked requests, status transitions and owner withdrawals. Indexers read events; contract state is the source of truth.
 
 ## Mock token (`contracts/mock-ft`) [built, test only]
 
@@ -69,7 +72,7 @@ Contract JSON types, reason codes with user-facing text, exact BigInt amount par
 
 ## Approval page (`apps/web`) [built]
 
-React 19 + Vite 8 + Tailwind 4. No backend: it reads the vault directly over NEAR JSON-RPC (`get_config`, `get_policy`, `get_request`, `get_budget`, token `ft_metadata`, latest final block time) and validates every response with the zod schemas in `@spendpact/shared`.
+React 19 + Vite 8 + Tailwind 4. No backend: it reads the vault directly over NEAR JSON-RPC (`get_config`, `get_policy`, `get_request`, `get_budget`, token `ft_metadata`, latest final block time) and validates every response with the zod schemas in `@spact/shared`.
 
 ```text
 ?request=<id>  -> loadSnapshot -> assess():
@@ -104,11 +107,24 @@ get_payment_status(request_id)
 
 The same preflight runs at startup, and the server exits if it fails. Tool results use fixed sentences; the agent's `reason` text is never echoed back.
 
+## Telegram notifier (`apps/notifier`) [built]
+
+A Node process with no NEAR keys and no webhook (ADR-020).
+
+```text
+every SPACT_POLL_SECONDS:
+  count = get_config.request_count; fresh = list_requests(newest count - seen); recheck count
+  for each fresh request, oldest first: AWAITING_APPROVAL and not expired by chain time -> alert
+  for each alerted open request: status changed -> follow-up (paid / rejected / expired / failed)
+link once: print a code on the terminal -> getUpdates until "/start <code>" from a private chat
+```
+
+The Bot API client validates every reply, waits for `retry_after` on 429, and never puts the bot token (part of the URL) in an error.
+
 ## Planned (not built)
 
 | Component | Role | Authority |
 |---|---|---|
 | Dashboard and Security Lab view | policy, history, test results | none: the owner's wallet signs |
 | API (Hono on Workers) | relay agent requests, index events, send notifications | none: on-chain state wins |
-| Telegram bot | notify the owner, deep-link to the approval page | none: a button tap cannot approve |
 | 1Click adapter (P1) | quote and owner-approved cross-chain route | trusted off-chain quote, disclosed |

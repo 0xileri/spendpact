@@ -1,4 +1,4 @@
-//! SpendPact policy vault.
+//! Spact policy vault.
 //!
 //! Holds NEP-141 tokens for an owner and lets designated agent accounts request payments.
 //! Every outgoing payment passes on-chain policy checks. Payments above the auto limit need the
@@ -225,7 +225,7 @@ impl Vault {
         ext_ft::ext(token).with_attached_deposit(ONE_YOCTO).with_static_gas(GAS_FOR_FT_TRANSFER).ft_transfer(
             receiver_id,
             amount,
-            Some("spendpact:owner_withdraw".to_string()),
+            Some("spact:owner_withdraw".to_string()),
         )
     }
 
@@ -552,7 +552,7 @@ impl Vault {
         ext_ft::ext(token)
             .with_attached_deposit(ONE_YOCTO)
             .with_static_gas(GAS_FOR_FT_TRANSFER)
-            .ft_transfer(recipient, U128(amount), Some(format!("spendpact:{request_id}")))
+            .ft_transfer(recipient, U128(amount), Some(format!("spact:{request_id}")))
             .then(
                 Self::ext(env::current_account_id())
                     .with_static_gas(GAS_FOR_TRANSFER_CALLBACK)

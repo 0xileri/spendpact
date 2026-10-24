@@ -1,6 +1,6 @@
 import { readFileSync, statSync } from "node:fs";
 
-import type { AccessKeyPermission } from "@spendpact/shared";
+import type { AccessKeyPermission } from "@spact/shared";
 import { KeyPair, type KeyPairString } from "near-api-js";
 
 /** The vault methods the agent's key may be scoped to. Nothing else is accepted. */

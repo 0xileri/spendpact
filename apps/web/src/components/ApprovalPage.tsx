@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { explainReason, type PaymentRequest, type ReasonCode, type Status } from "@spendpact/shared";
+import { explainReason, type PaymentRequest, type ReasonCode, type Status } from "@spact/shared";
 
 import { assess, buildApproveActions, buildRejectActions, reasonFromError } from "../approval.js";
 import { explorerTxLink, type AppConfig } from "../config.js";

@@ -28,7 +28,7 @@ Unaudited hackathon prototype. This file maps each invariant from AGENTS.md sect
 | T03 | replay | yes | yes |
 | T04 | parallel split against the daily budget | sequential | parallel txs: yes |
 | T05 | agent calls owner methods | yes | yes |
-| T06 | forged Telegram callback | no Telegram yet | no |
+| T06 | forged Telegram callback | n/a: the bot has no buttons that act | notifier sandbox test: a forged `callback_query` "approve" is ignored and the request stays AWAITING_APPROVAL; a group chat and a wrong code cannot bind |
 | T07 | expired approval | yes | no |
 | T08 | transfer fails / recipient not registered | yes | yes |
 | T09 | pause before execution | yes | pause blocks new requests: yes |
@@ -48,6 +48,8 @@ Unaudited hackathon prototype. This file maps each invariant from AGENTS.md sect
 - **Agent operator key.** On testnet the agent account keeps its full-access key in the operator's keychain; only the agent runtime gets the function-call key (ADR-017). Whoever holds the full-access key controls the agent account and its NEAR, but still cannot move vault funds outside policy (I1, I2).
 - **Agent gas allowance.** The function-call key's allowance limits gas, not payments. A runaway agent can burn it with requests the vault blocks (blocked requests are not stored, so this costs the vault nothing). When it runs out the key stops working (sandbox `t20_*`), and only a full-access key can add a new one (`t19_*` shows the function-call key cannot).
 - **MCP host.** Anyone who can read the agent's key file, or drive the MCP host, can make requests as the agent. They are still bound by the vault policy and the key's gas allowance. The server only accepts a key file that other users cannot read.
+- **Telegram binding** proves control of the machine running the notifier (it prints the code), not of the owner wallet (ADR-020). Whoever holds the bot token can read alerts and send messages as the bot. Neither can approve: approval is a wallet signature on the exact stored hash.
+- **Agent text in alerts.** The agent's note is shown in the Telegram alert, labeled as the agent's, with links defanged so the approval page is the only link (notifier tests). It can still try social engineering in words.
 - **Owner wallet compromise** defeats everything. Out of scope, as AGENTS.md says.
 - **Allowlisted token contracts are trusted** to implement `ft_transfer` honestly and synchronously. A malicious token could report success without moving funds.
 - **Stuck reservation.** If the callback itself fails (it has 10 Tgas of static gas), the request stays TRANSFER_PENDING and its budget stays reserved. That fails closed, but there is no reconciliation method yet.
@@ -59,7 +61,7 @@ Unaudited hackathon prototype. This file maps each invariant from AGENTS.md sect
 
 ## Approval page (apps/web)
 
-The page reads the vault straight from a NEAR RPC endpoint and treats every response as untrusted (zod schemas in `@spendpact/shared`).
+The page reads the vault straight from a NEAR RPC endpoint and treats every response as untrusted (zod schemas in `@spact/shared`).
 
 - **What a lying RPC can do:** show wrong terms, a wrong status or wrong balances. It cannot make the owner approve different terms. The page hashes the terms it displays together with the network and vault id it is configured for, and the owner signs that hash. If the RPC also forges the hash, the vault compares it to what it stored and refuses with `HASH_MISMATCH`. Both cases are covered by browser tests that rewrite RPC responses in flight.
 - **What it can still do:** make the owner reject a legitimate request, or wait on a payment that was never made. Shown status is only as good as the RPC; use a trusted endpoint.

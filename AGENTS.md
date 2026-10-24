@@ -1,6 +1,6 @@
-# AGENTS.md — SpendPact
+# AGENTS.md — Spact
 
-> **Single source of truth for Codex, Claude Code, and other coding agents building SpendPact.**
+> **Single source of truth for Codex, Claude Code, and other coding agents building Spact.**
 > Project stage: pre-hackathon planning. Last reviewed: **2026-10-23 (UTC)**.
 > Owner: project founder. Status: specification, **not evidence of implemented security**.
 >
@@ -33,13 +33,13 @@ This file is an execution contract for coding assistants. Treat security require
 
 ## 1. Product identity and one-sentence promise
 
-**Name:** SpendPact  
+**Name:** Spact  
 **Category:** open-source payment-policy firewall for AI agents  
 **Tagline:** *Autonomous spending. Human rules.*  
 **Primary hackathon track:** AI Security & Defense  
 **Additional fit:** Agent Economy; Autonomous Business (only if the completed demo genuinely qualifies)
 
-**Pitch:** SpendPact lets an AI agent request and execute limited payments from a NEAR-based vault while policy-enforced spending limits protect the funds; larger or higher-risk transactions require an owner-authorized, exact-payment approval. A security lab proves attempted bypasses fail. A tightly scoped NEAR Intents integration demonstrates a real cross-chain payment without disguising the external quote trust boundary.
+**Pitch:** Spact lets an AI agent request and execute limited payments from a NEAR-based vault while policy-enforced spending limits protect the funds; larger or higher-risk transactions require an owner-authorized, exact-payment approval. A security lab proves attempted bypasses fail. A tightly scoped NEAR Intents integration demonstrates a real cross-chain payment without disguising the external quote trust boundary.
 
 ### User story
 
@@ -47,7 +47,7 @@ A developer or small business gives an autonomous AI agent a spending budget to 
 
 ### Differentiation
 
-This is **not** merely “an AI wallet plus a Telegram approve button.” Existing agent payment products offer similar functionality. SpendPact differentiates on: **enforceable on-chain budgets, authorization bound to immutable payment parameters, replay resistance, explicit cross-chain trust boundaries, and reproducible adversarial security tests.**
+This is **not** merely “an AI wallet plus a Telegram approve button.” Existing agent payment products offer similar functionality. Spact differentiates on: **enforceable on-chain budgets, authorization bound to immutable payment parameters, replay resistance, explicit cross-chain trust boundaries, and reproducible adversarial security tests.**
 
 ### Non-goals for the hackathon
 
@@ -213,7 +213,7 @@ If a dependency will not work in the selected runtime, write an ADR in `docs/DEC
 ### Planned repo tree
 
 ```text
-spendpact/
+spact/
 ├── AGENTS.md                   # this canonical instruction file
 ├── CLAUDE.md                   # pointer to AGENTS.md, no duplicate policy
 ├── HACKATHON.md                # official organizer file, fetched separately
@@ -227,7 +227,7 @@ spendpact/
 │   ├── api/                    # Hono API, Telegram webhook, indexer
 │   └── mcp/                    # example restricted local MCP server
 ├── contracts/
-│   └── spendpact-vault/        # near-sdk Rust contract and tests
+│   └── spact-vault/        # near-sdk Rust contract and tests
 ├── packages/
 │   ├── shared/                 # TS schemas, types, reason codes, hash formats
 │   └── intents/                # typed 1Click adapter and mock fixtures
@@ -446,7 +446,7 @@ Keep only what the UI/indexer needs: event cursor/block height, request ID and s
 Expose exactly these tools at first:
 
 ```text
-spendpact.request_payment({
+spact.request_payment({
   token: string,
   amount_units: string,
   recipient: string,
@@ -454,7 +454,7 @@ spendpact.request_payment({
   request_id: string
 }) -> {request_id, policy_decision, onchain_status, review_url?}
 
-spendpact.get_payment_status({request_id: string})
+spact.get_payment_status({request_id: string})
   -> {request_id, source_status, external_status?, reason_code, explorer_url?}
 ```
 
@@ -666,7 +666,7 @@ Next smallest task:
 
 The public `README.md` must include:
 
-1. SpendPact's **one-sentence problem/solution** and the difference from a generic AI wallet.
+1. Spact's **one-sentence problem/solution** and the difference from a generic AI wallet.
 2. 90-second GIF or short demo link (if created), screenshots, deployed URL, and network warning.
 3. A labeled architecture diagram and trust-boundary paragraph.
 4. Supported flows and a matrix of **local vs testnet vs mainnet** implementation status.
@@ -732,7 +732,7 @@ Re-check before coding, because APIs and deployment practices can change.
 
 ## 19. The exact first task to start the project
 
-When owner says **“start building SpendPact”**, perform this in order:
+When owner says **“start building Spact”**, perform this in order:
 
 1. Verify organizer rules and the chosen SDKs; create `docs/INTEGRATIONS.md` with actual dates, commands and source links.
 2. Create `docs/ARCHITECTURE.md`, `docs/THREAT_MODEL.md`, `docs/DECISIONS.md`, and `docs/STATUS.md` based on this spec, with the initial open questions listed.
@@ -748,6 +748,6 @@ When owner says **“start building SpendPact”**, perform this in order:
 
 ## 20. Non-negotiable final reminder
 
-SpendPact exists to demonstrate **limited financial authority** for an AI agent. The agent can ask to spend, but it never gets the power to rewrite the limits, authorize its own exceptional payment, or silently swap a human-approved recipient. A clean security model with one real payment is a stronger entry than ten impressive-looking screens backed by off-chain approval checks.
+Spact exists to demonstrate **limited financial authority** for an AI agent. The agent can ask to spend, but it never gets the power to rewrite the limits, authorize its own exceptional payment, or silently swap a human-approved recipient. A clean security model with one real payment is a stronger entry than ten impressive-looking screens backed by off-chain approval checks.
 
 **Ship a defensible P0. Earn the right to ship P1. Never fake a security property or a blockchain settlement.**

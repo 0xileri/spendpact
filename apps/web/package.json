@@ -1,21 +1,21 @@
 {
-  "name": "@spendpact/web",
+  "name": "@spact/web",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "SpendPact owner approval page",
+  "description": "Spact owner approval page",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
-    "e2e": "pnpm --filter @spendpact/shared build && playwright test",
+    "e2e": "pnpm --filter @spact/shared build && playwright test",
     "dev-signer": "node --experimental-strip-types dev/dev-signer.ts"
   },
   "dependencies": {
     "@hot-labs/near-connect": "0.11.4",
-    "@spendpact/shared": "workspace:*",
+    "@spact/shared": "workspace:*",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   },

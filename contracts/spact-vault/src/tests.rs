@@ -779,9 +779,9 @@ fn digest_matches_independent_test_vector() {
     };
     set_ctx(vault(), 0, NOW);
     let bytes = encode_request("sandbox", "vault.test.near", &req);
-    assert_eq!(bytes.len(), 176);
+    assert_eq!(bytes.len(), 172);
     assert_eq!(
         request_hash("sandbox", "vault.test.near", &req),
-        "2dc183ce79e25bd13fba4c84e703d2937d53c3cf63f5cf1056ecac3d9b57e49e"
+        "2d4708a7e377bb80a417f78393fea4ac8c40e2a4a2710b0fc713971a7804186a"
     );
 }
